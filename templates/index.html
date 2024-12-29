@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Compras</h1>
+
+    <form action="/adicionar" method="POST">
+        <input type="text" name="nome" placeholder="Nome do produto" required>
+        <input type="number" name="quantidade" placeholder="Quantidade" required min="1">
+        <input type="number" name="preco" placeholder="Preço" required step="0.01" min="0">
+        <button type="submit">Adicionar Item</button>
+    </form>
+
+    <h2>Total: R${{ total|round(2) }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in lista_compras %}
+                <tr>
+                    <td>{{ item.nome }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>R$ {{ item.preco|round(2) }}</td>
+                    <td>
+                        <a href="/remover/{{ loop.index0 }}">Remover</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/limpar"><button>Limpar Lista</button></a>
+</body>
+</html>
